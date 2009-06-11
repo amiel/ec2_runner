@@ -25,23 +25,24 @@ lookup_image() {
 
 start_instance() {
 	local image=${1:?no arg given to start_instance, expecting an image (ami-*)}
-	ec2-run-instance $image | grep INSTANCE | awk '{ print $2 }'
+	$EC2_PATH/ec2-run-instance $image | grep INSTANCE | awk '{ print $2 }'
 }
 
 
 get_state() {
 	local instance=${1:?no arg given to get_state, expecting an instance (i-*)}
-	ec2-describe-instances | grep $instances
+	$EC2_PATH/ec2-describe-instances | grep $instances
 }
 
 
 start_and_wait() {
-	ebegin 'starting $ec2_image'
-	instance=$(start_instance $ec2_image)
+	local image=${1:?no arg given to get_state, expecting an image (ami-*)}
+	ebegin 'starting $image'
+	instance=$(start_instance $image)
 	eend $?
 	einfo instance is $instance
 	while true; do
-		get_state
+		get_state $instance
 	done
 }
 
