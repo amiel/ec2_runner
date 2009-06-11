@@ -1,0 +1,1 @@
+creates an ec2 instance and sets it up for use with tatango's nginx/HAProxy setup
