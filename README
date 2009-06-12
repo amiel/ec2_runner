@@ -1,1 +1,3 @@
 creates an ec2 instance and sets it up for use with tatango's nginx/HAProxy setup
+
+this depends on iptables_tunnel http://github.com/amiel/iptables-Tunnel

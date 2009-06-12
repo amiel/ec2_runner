@@ -1,3 +1,0 @@
-[submodule "iptables_tunnel"]
-	path = iptables_tunnel
-	url = git://github.com/amiel/iptables-Tunnel.git
