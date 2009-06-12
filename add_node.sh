@@ -58,7 +58,7 @@ get_state() {
 find_first_available_port() {
 	local my_ip=${1:?my_ip not supplied to find_first_available_port}
 	for i in $(seq 0 $N_LOCAL_PORTS); do
-		nc -z $my_ip $[i+$STARTING_LOCAL_PORT] || { echo $[i+$STARTING_LOCAL_PORT]; break }
+		nc -z $my_ip $[i+$STARTING_LOCAL_PORT] || { echo $[i+$STARTING_LOCAL_PORT]; break; }
 	done
 }
 
@@ -116,7 +116,7 @@ start_setup_and_deploy() {
 		remote_port=$[i + $STARTING_REMOTE_PORT]
 		$IPTABLES_TUNNEL add $port_base_number $ip:$remote_port
 	done
-		
+
 }
 
 check_rails
