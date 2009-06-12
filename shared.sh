@@ -8,7 +8,7 @@ export EC2_CERT=$(echo ~/.ec2/cert-*.pem)
 export EC2_PRIVATE_KEY=$(echo ~/.ec2/pk-*.pem)
 
 
-IPTABLES_TUNNEL="./script/iptables_tunnel/iptables_tunnel.sh"
+IPTABLES_TUNNEL="$(dirname $SELF)/iptables_tunnel.sh"
 
 STARTING_LOCAL_PORT=5000
 STARTING_LOCAL_BACKUP_PORT=5500
