@@ -15,6 +15,7 @@ STARTING_LOCAL_PORT=5000
 STARTING_LOCAL_BACKUP_PORT=5500
 STARTING_REMOTE_PORT=3500
 N_LOCAL_PORTS=29
+PORTS_PER_EC2=5
 
 # ec2_image=ami-7767811e
 # or
@@ -109,7 +110,7 @@ start_setup_and_deploy() {
 
 	first_port=$(find_first_available_port $my_ip)
 	
-	for i in $(seq 0 $N_LOCAL_PORTS); do
+	for i in $(seq 0 $PORTS_PER_EC2); do
 		# local_ports[$i]=$[i+$first_port]
 		port_base_number=$[first_port + i - $STARTING_LOCAL_PORT]
 		remote_port=$[i + $STARTING_REMOTE_PORT]
