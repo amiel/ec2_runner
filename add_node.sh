@@ -35,12 +35,21 @@ get_state() {
 }
 
 
-start_and_wait() {
-	local image=${1:?no arg given to get_state, expecting an image (ami-*)} instance hostname ip
-	ebegin "starting $image"
-	instance=$(start_instance $image)
+start_and_setup() {
+	local instance hostname ip
+	
+	if [ -z $ec2_image -a ! -z $ec2_image_location ]; then
+		ec2_image=$(lookup_image $ec2_image_location)
+	fi
+	
+	# start the instance
+	
+	ebegin "starting $ec2_image"
+	instance=$(start_instance $ec2_image)
 	eend $?
 	einfo "instance is $instance"
+	
+	# wait for it to boot
 	
 	ebegin "waiting for instance to boot up"
 	while get_state $instance | grep -q pending; do
@@ -48,14 +57,17 @@ start_and_wait() {
 	done
 	eend 0
 	
+	# get its ip
+	
 	hostname=$(get_state $instance | awk '{ print $4 }')
 	einfo "got instance hostname: $hostname"
 	
 	ip=$(lookup_host $hostname)
 	einfo "got ip: $ip"
+	
+	
+	
 }
 
-if [ -z $ec2_image -a ! -z $ec2_image_location ]; then
-	ec2_image=$(lookup_image $ec2_image_location)
-fi
 
+start_and_setup
