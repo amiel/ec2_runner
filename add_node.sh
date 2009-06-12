@@ -1,33 +1,14 @@
 #!/bin/bash
 
-source functions.sh
+SELF="./script/ec2_runner/add_node.sh"
+source "$(dirname $SELF)/shared.sh"
+source "$(dirname $SELF)/functions.sh"
 
-
-export EC2_HOME=/usr/local/ec2-api-tools
-export EC2_PATH=/usr/local/ec2-api-tools/bin
-
-export EC2_CERT=$(echo ~/.ec2/cert-*.pem)
-export EC2_PRIVATE_KEY=$(echo ~/.ec2/pk-*.pem)
-
-IPTABLES_TUNNEL="./script/iptables_tunnel/iptables_tunnel.sh"
-
-STARTING_LOCAL_PORT=5000
-STARTING_LOCAL_BACKUP_PORT=5500
-STARTING_REMOTE_PORT=3500
-N_LOCAL_PORTS=29
-PORTS_PER_EC2=5
 
 # ec2_image=ami-7767811e
 # or
 ec2_image_location='tatango-amis/almost_ready.manifest.xml'
 
-check_rails() {
-	[ -x script/about ] || exit_with_error 10 "please run this script in the root directory of a rails project"
-}
-
-check_root() {
-	[ $(whoami) = 'root' ] || exit_with_error 10 "please run this script as root"
-}
 
 determine_my_ip() {
 	ifconfig eth0 | grep inet | grep -v inet6 | cut -d ":" -f 2 | cut -d " " -f 1
@@ -119,6 +100,8 @@ start_setup_and_deploy() {
 
 }
 
+
 check_rails
 check_root
+
 start_setup_and_deploy

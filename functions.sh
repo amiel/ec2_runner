@@ -37,13 +37,6 @@ include_file() {
 }
 
 
-exit_with_error() {
-	error_num=$1
-	shift
-	eerror $*
-	exit $error_num
-}
-
 # void esyslog(char* priority, char* tag, char* message)
 #
 #    use the system logger to log a message
