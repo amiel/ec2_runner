@@ -25,25 +25,34 @@ lookup_image() {
 
 start_instance() {
 	local image=${1:?no arg given to start_instance, expecting an image (ami-*)}
-	$EC2_PATH/ec2-run-instance $image | grep INSTANCE | awk '{ print $2 }'
+	$EC2_PATH/ec2-run-instances $image | grep INSTANCE | awk '{ print $2 }'
 }
 
 
 get_state() {
 	local instance=${1:?no arg given to get_state, expecting an instance (i-*)}
-	$EC2_PATH/ec2-describe-instances | grep $instances
+	$EC2_PATH/ec2-describe-instances | grep $instance
 }
 
 
 start_and_wait() {
-	local image=${1:?no arg given to get_state, expecting an image (ami-*)}
-	ebegin 'starting $image'
+	local image=${1:?no arg given to get_state, expecting an image (ami-*)} instance hostname ip
+	ebegin "starting $image"
 	instance=$(start_instance $image)
 	eend $?
-	einfo instance is $instance
-	while true; do
-		get_state $instance
+	einfo "instance is $instance"
+	
+	ebegin "waiting for instance to boot up"
+	while get_state $instance | grep -q pending; do
+		sleep 5
 	done
+	eend 0
+	
+	hostname=$(get_state $instance | awk '{ print $4 }')
+	einfo "got instance hostname: $hostname"
+	
+	ip=$(lookup_host $hostname)
+	einfo "got ip: $ip"
 }
 
 if [ -z $ec2_image -a ! -z $ec2_image_location ]; then
