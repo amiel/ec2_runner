@@ -5,7 +5,7 @@ source "$(dirname $SELF)/shared.sh"
 source "$(dirname $SELF)/functions.sh"
 
 
-# ec2_image=ami-7767811e
+# ec2_image=ami-
 # or
 ec2_image_location='tatango-amis/should_work.manifest.xml'
 
@@ -30,7 +30,7 @@ start_instance() {
 }
 
 
-get_state() {
+get_instance_status() {
 	local instance=${1:?no arg given to get_state, expecting an instance (i-*)}
 	$EC2_PATH/ec2-describe-instances | grep $instance
 }
@@ -39,7 +39,7 @@ get_state() {
 find_first_available_port() {
 	local my_ip=${1:?my_ip not supplied to find_first_available_port}
 	for i in $(seq 0 $N_LOCAL_PORTS); do
-		nc -z $my_ip $[i+$STARTING_LOCAL_PORT] || { echo $[i+$STARTING_LOCAL_PORT]; break; }
+		nc -z $my_ip $[i+$STARTING_LOCAL_PORT] > /dev/null || { echo $[i+$STARTING_LOCAL_PORT]; break; }
 	done
 }
 
@@ -66,7 +66,7 @@ start_setup_and_deploy() {
 	# wait for it to boot
 	
 	ebegin "waiting for instance to boot up"
-	while get_state $instance | grep -q pending; do
+	while get_instance_status $instance | grep -q pending; do
 		sleep 5
 	done
 	eend 0
