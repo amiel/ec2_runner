@@ -7,7 +7,7 @@ source "$(dirname $SELF)/functions.sh"
 
 # ec2_image=ami-7767811e
 # or
-ec2_image_location='tatango-amis/without_mysqld.manifest.xml'
+ec2_image_location='tatango-amis/should_work.manifest.xml'
 
 
 determine_my_ip() {
