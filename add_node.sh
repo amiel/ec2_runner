@@ -7,7 +7,7 @@ source "$(dirname $SELF)/functions.sh"
 
 # ec2_image=ami-7767811e
 # or
-ec2_image_location='tatango-amis/almost_ready.manifest.xml'
+ec2_image_location='tatango-amis/without_mysqld.manifest.xml'
 
 
 determine_my_ip() {
@@ -79,13 +79,13 @@ start_setup_and_deploy() {
 	ip=$(lookup_host $hostname)
 	einfo "got ip: $ip"
 	
-	# TODO: setup tunnel here
+	# NOTE: tunnel for mysql stuffs should be setup by the instance itself
 	
 	# deploy
 	
 	cap HOSTS="$ip" deploy
 
-	
+
 	# setup iptables_tunnel
 	local first_port port_base_number remote_port
 
@@ -95,7 +95,8 @@ start_setup_and_deploy() {
 		# local_ports[$i]=$[i+$first_port]
 		port_base_number=$[first_port + i - $STARTING_LOCAL_PORT]
 		remote_port=$[i + $STARTING_REMOTE_PORT]
-		$IPTABLES_TUNNEL add $port_base_number $ip:$remote_port
+		# background this bitch, not that the backgrounding will be more important when we are shutting down
+		$IPTABLES_TUNNEL add $port_base_number $ip:$remote_port &
 	done
 
 }
