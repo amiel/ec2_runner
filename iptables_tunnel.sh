@@ -34,7 +34,7 @@ case $1 in
 		;;
 	remove)
 		remove_server $3 $(get_port $2)
-		ebegin "waiting 10 seconds for server to finish handling requests"
+		ebegin "waiting 30 seconds for server to finish handling requests"
 		sleep 30
 		eend 0
 		remove_server $3 $(get_port $2 backup)
