@@ -86,6 +86,8 @@ start_setup_and_deploy() {
 	cap HOSTS="$ip" deploy
 
 
+	einfo "deployed, now setting up iptables tunnels"
+	
 	# setup iptables_tunnel
 	local first_port port_base_number remote_port
 
@@ -96,7 +98,7 @@ start_setup_and_deploy() {
 		port_base_number=$[first_port + i - $STARTING_LOCAL_PORT]
 		remote_port=$[i + $STARTING_REMOTE_PORT]
 		# background this bitch, not that the backgrounding will be more important when we are shutting down
-		$IPTABLES_TUNNEL add $port_base_number $ip:$remote_port &
+		$IPTABLES_TUNNEL add $port_base_number $ip:$remote_port
 	done
 
 }
