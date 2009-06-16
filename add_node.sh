@@ -100,6 +100,8 @@ start_setup_and_deploy() {
 		$IPTABLES_TUNNEL add $port_base_number $ip:$remote_port
 	done
 
+	einfo "done with instances $instance"
+
 }
 
 
