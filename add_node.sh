@@ -14,10 +14,7 @@ determine_my_ip() {
 	ifconfig eth0 | grep inet | grep -v inet6 | cut -d ":" -f 2 | cut -d " " -f 1
 }
 
-lookup_host() {
-	local name=${1:?no arg given in lookup_host}
-	host -t A $name | head -1 | awk '{ print $NF }'
-}
+
 
 lookup_image() {
 	local location=${1:?no arg given in lookup_image}
@@ -30,10 +27,6 @@ start_instance() {
 }
 
 
-get_instance_status() {
-	local instance=${1:?no arg given to get_instance_status, expecting an instance (i-*)}
-	$EC2_PATH/ec2-describe-instances | grep $instance
-}
 
 
 find_first_available_port() {
@@ -99,9 +92,10 @@ start_setup_and_deploy() {
 		port_base_number=$[first_port + i - $STARTING_LOCAL_PORT]
 		remote_port=$[i + $STARTING_REMOTE_PORT]
 		# background this bitch, not that the backgrounding will be more important when we are shutting down
-		$IPTABLES_TUNNEL add $port_base_number $ip:$remote_port
+		$IPTABLES_TUNNEL add $port_base_number $ip:$remote_port &
 	done
 
+	wait
 }
 
 
