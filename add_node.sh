@@ -31,7 +31,7 @@ start_instance() {
 
 
 get_instance_status() {
-	local instance=${1:?no arg given to get_state, expecting an instance (i-*)}
+	local instance=${1:?no arg given to get_instance_status, expecting an instance (i-*)}
 	$EC2_PATH/ec2-describe-instances | grep $instance
 }
 
@@ -73,7 +73,7 @@ start_setup_and_deploy() {
 	
 	# get its ip
 	
-	hostname=$(get_state $instance | awk '{ print $4 }')
+	hostname=$(get_instance_status $instance | awk '{ print $4 }')
 	einfo "got instance hostname: $hostname"
 	
 	ip=$(lookup_host $hostname)
