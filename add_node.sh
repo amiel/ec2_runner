@@ -80,7 +80,7 @@ start_setup_and_deploy() {
 	# deploy
 	
 	cap HOSTS="$ip" deploy
-
+	cap HOSTS="$ip" deploy:web:link_cache
 
 	einfo "deployed, now setting up iptables tunnels"
 	
