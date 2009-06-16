@@ -32,7 +32,7 @@ terminate_instance() {
 remove_instance() {
 	local instance instance_ip instance_hostname instance_id
 	
-	instance=$(get_instance_status ${1:-INSTANCE} | head -1)
+	instance=$(get_instance_status ${1:-INSTANCE} | grep running | head -1)
 	instance_id=$(echo $instance | awk '{ print $2 }')
 	instance_hostname=$(echo $instance | awk '{ print $4 }')
 	instance_ip=$(lookup_host $instance_hostname)
