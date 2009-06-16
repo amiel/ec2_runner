@@ -75,6 +75,8 @@ start_setup_and_deploy() {
 	
 	# NOTE: tunnel for mysql stuffs should be setup by the instance itself
 	
+	sleep 5
+	
 	# deploy
 	
 	cap HOSTS="$ip" deploy
@@ -92,10 +94,9 @@ start_setup_and_deploy() {
 		port_base_number=$[first_port + i - $STARTING_LOCAL_PORT]
 		remote_port=$[i + $STARTING_REMOTE_PORT]
 		# background this bitch, not that the backgrounding will be more important when we are shutting down
-		$IPTABLES_TUNNEL add $port_base_number $ip:$remote_port &
+		$IPTABLES_TUNNEL add $port_base_number $ip:$remote_port
 	done
 
-	wait
 }
 
 

@@ -46,4 +46,4 @@ remove_instance() {
 }
 
 
-remove_instance
+remove_instance $1
