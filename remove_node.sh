@@ -42,7 +42,7 @@ remove_instance() {
 	shutdown_iptables_tunnel $instance_ip
 	
 	einfo "done, now shutting down the instance ($instance_id)"
-	terminate_instance
+	terminate_instance $instance_id
 }
 
 
