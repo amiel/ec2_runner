@@ -77,6 +77,9 @@ start_setup_and_deploy() {
 	
 	sleep 5
 	
+	ebegin "ssh in and mount -a (mount nfs stuffs)"
+	ssh -oStrictHostKeyChecking=no root@$ip "mount -a"
+	
 	# deploy
 	
 	cap HOSTS="$ip" deploy
