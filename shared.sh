@@ -16,6 +16,8 @@ STARTING_REMOTE_PORT=3500
 N_LOCAL_PORTS=29
 PORTS_PER_EC2=5
 
+IPTABLES=/sbin/iptables
+
 
 
 exit_with_error() {

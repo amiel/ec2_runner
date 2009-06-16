@@ -2,8 +2,7 @@
 
 SELF="./script/ec2_runner/iptables_tunnel.sh"
 source "$(dirname $SELF)/functions.sh"
-
-IPTABLES=/sbin/iptables
+source "$(dirname $SELF)/shared.sh"
 
 get_port() {
 	case $2 in
